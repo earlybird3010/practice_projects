@@ -1,22 +1,30 @@
-def calculator():
-    print('Welcome Great Master! I am Eniac, your personal assistant. Please choose a service from the options below:')
+def print_options():
     print("1. Addition")
     print("2. Subtraction")
     print("3. Multiplication")
     print("4. Division")
+    print("5. Exit")
 
+def calculator():
+    print('Welcome Great Master! I am Eniac, your personal assistant. Please choose a service from the options below:')
+    print_options()
     choice = int(input())
 
-    if choice == 1:
-        addition()
-    elif choice == 2:
-        subtraction()
-    elif choice == 3:
-        multiplication()
-    elif choice == 4:
-        division()
-    else:
-        print("Invalid option!")
+    while choice != 5:
+        if choice == 1:
+            addition()
+        elif choice == 2:
+            subtraction()
+        elif choice == 3:
+            multiplication()
+        elif choice == 4:
+            division()
+        else:
+            print("Invalid option! Please try again!")
+        print()
+        print_options()
+        choice = int(input())
+
 
 def addition():
     print("Please enter the first summand: ")
