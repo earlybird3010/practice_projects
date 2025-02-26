@@ -47,7 +47,7 @@ def get_var_input(input):
     """Get a variable's value from the input"""
     while True:
         try: 
-            result = float(input())
+            result = float(input)
             break
         except ValueError:
             print('Invalid input! Please try again.')
