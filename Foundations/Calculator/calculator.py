@@ -66,10 +66,8 @@ def calc(operator_sign, variable_names):
 
     #Division by 0 handling
     if operator_sign == '/' and second == 0:
-        print('Invalid input! You cannnot divide a number by 0. Please try again.')
+        print('Invalid input! You cannot divide a number by 0. Please try again.')
     else:
         print(f'The result of {first} {operator_sign} {second} is {operator_func(first, second)}')
     
-
-
 calculator()
