@@ -9,34 +9,39 @@ def print_options():
 
 def calculator():
     print('Welcome Great Master! I am Eniac, your personal assistant. Please choose a service from the options below:')
-    print_options()
-    choice = int(input())
-
-    while choice != 5:
-        if choice == 1:
-            calc('+', ['first summand', 'second summand'])
-        elif choice == 2:
-            calc('-', ['minuend', 'subtrahend'])
-        elif choice == 3:
-            calc('*', ['multiplier', 'multiplicand'])
-        elif choice == 4:
-            calc('/', ['dividend', 'divisor'])
-        else:
-            print("Invalid option! Please try again!")
-        print()
+    print()
+    while True:
         print_options()
-        choice = int(input())
+        try:
+            choice = int(input())
+
+            if choice == 1:
+                calc('+', ['first summand', 'second summand'])
+            elif choice == 2:
+                calc('-', ['minuend', 'subtrahend'])
+            elif choice == 3:
+                calc('*', ['multiplier', 'multiplicand'])
+            elif choice == 4:
+                calc('/', ['dividend', 'divisor'])
+            elif choice == 5:
+                print("Goodbye Master! Your humble servant, Eniac, awaits to serve you next time.")
+                break
+            else:
+                print("Invalid input option! Please try again.")
+        except ValueError:
+            print("Invalid option! Please choose again")
+        print()
 
 def func(operator_sign):
     """Return the corresponding function of the operation"""
-    if operator_sign == '+':
-        return operator.add
-    elif operator_sign == '-':
-        return operator.sub
-    elif operator_sign == '*':
-        return operator.mul
-    elif operator_sign == '/':
-        return operator.truediv
+    opsign_operator = {
+        '+': operator.add,
+        '-': operator.sub,
+        '*': operator.mul,
+        '/': operator.truediv
+    }
+
+    return opsign_operator[operator_sign]
     
 def calc(operator_sign, variable_names):
     print(f'Please enter the {variable_names[0]}: ')
@@ -62,6 +67,7 @@ def calc(operator_sign, variable_names):
         print('You cannnot divide a number by 0!')
     else:
         print(f'The result of {first} {operator_sign} {second} is {operator_func(first, second)}')
+    
 
 
 calculator()
