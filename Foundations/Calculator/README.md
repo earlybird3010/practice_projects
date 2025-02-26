@@ -36,6 +36,15 @@ You should have git and python3 installed.
 - [x] Implement simple operations: addition, subtraction, multiplication, and division
 - [x] Implement an exit option. This way, the program doesn't stop after performing 1 computation.
 - [x] Error handling: handle division by 0 and invalid inputs
+- [ ] Advanced math operations: implement exponentiation, n-th root, log, trigonometric functions, etc.
+- [ ] History management: Keep track of some previous calculations
+- [ ] Equation solving: Try support for solving linear, quadratic, or even polynomial equations
+- [ ] Improved input enhancement: Users can directly type the expression to the console to obtain the result. Allow usage of parentheses
+- [ ] Unit conversion: Add a feature for converting between different units (length, weight, volume, etc.)
+- [ ] Scientific Notation and Precision Control: For very large and very small numbers, display the results in scientific notation. Allow the user to control the number of decimal places.
+- [ ] User Interface: build a GUI to enhance interactivity
+- [ ] Error Handling and Validation: cover most edge cases smoothly
+- [ ] Settings and Customization: users are able to customize themes, number formats, and display settings, and save preferences for future sessions.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
