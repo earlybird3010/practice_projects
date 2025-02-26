@@ -42,30 +42,31 @@ def func(operator_sign):
     }
 
     return opsign_operator[operator_sign]
+
+def get_var_input(input):
+    """Get a variable's value from the input"""
+    while True:
+        try: 
+            result = float(input())
+            break
+        except ValueError:
+            print('Invalid input! Please try again.')
+    
+    return result
     
 def calc(operator_sign, variable_names):
     """Prompting and present calculation based on OPERATOR_SIGN and VARIABLE_NAMES"""
+
     print(f'Please enter the {variable_names[0]}: ')
-    while True:
-        try: 
-            first = float(input())
-            break
-        except ValueError:
-            print('Invalid input! Please try again.')
-    
+    first = get_var_input(input())
     print(f'Please enter the {variable_names[1]}: ')
-    while True:
-        try: 
-            second = float(input())
-            break
-        except ValueError:
-            print('Invalid input! Please try again.')
+    second = get_var_input(input())
     
     operator_func = func(operator_sign)
 
     #Division by 0 handling
     if operator_sign == '/' and second == 0:
-        print('You cannnot divide a number by 0!')
+        print('Invalid input! You cannnot divide a number by 0. Please try again.')
     else:
         print(f'The result of {first} {operator_sign} {second} is {operator_func(first, second)}')
     
