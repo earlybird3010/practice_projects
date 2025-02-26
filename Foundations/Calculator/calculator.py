@@ -40,11 +40,28 @@ def func(operator_sign):
     
 def calc(operator_sign, variable_names):
     print(f'Please enter the {variable_names[0]}: ')
-    first = float(input())
+    while True:
+        try: 
+            first = float(input())
+            break
+        except ValueError:
+            print('Invalid input! Please try again.')
+    
     print(f'Please enter the {variable_names[1]}: ')
-    second = float(input())
+    while True:
+        try: 
+            second = float(input())
+            break
+        except ValueError:
+            print('Invalid input! Please try again.')
+    
     operator_func = func(operator_sign)
-    print(f'The result of {first} {operator_sign} {second} is {operator_func(first, second)}')
+
+    #Division by 0 handling
+    if operator_sign == '/' and second == 0:
+        print('You cannnot divide a number by 0!')
+    else:
+        print(f'The result of {first} {operator_sign} {second} is {operator_func(first, second)}')
 
 
 calculator()
