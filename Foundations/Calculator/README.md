@@ -16,7 +16,7 @@ You should have git and python3 installed.
 ### Installation
 1. Clone the repo
    ```sh
-   git clone https://github.com/github_username/repo_name.git
+   git clone https://github.com/earlybird3010/practice_projects/tree/main/Foundations/Calculator
    ```
 2. Change git remote url to avoid accidental pushes to base project
    ```sh
@@ -31,32 +31,7 @@ You should have git and python3 installed.
 <!-- ROADMAP -->
 ## Roadmap
 
-- [x] Prints the string "Hello, World!" to the console.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- CONTRIBUTING -->
-## Contributing
-
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
-Don't forget to give the project a star! Thanks again!
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-
-
-<!-- LICENSE -->
-## License
-
-Distributed under the Unlicense License. See `LICENSE.txt` for more information.
+- [x] Implement simple operations: addition, subtraction, multiplication, and division
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -65,9 +40,9 @@ Distributed under the Unlicense License. See `LICENSE.txt` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Your Name - darkgamerptnk@example.com
+Chau Nguyen - darkgamerptnk@example.com
 
-Project Link: [https://github.com/earlybird3010/practice_projects/tree/main/Foundations/HelloWorld](https://github.com/earlybird3010/practice_projects/tree/main/Foundations/HelloWorld)
+Project Link: [https://github.com/earlybird3010/practice_projects/tree/main/Foundations/Calculator](https://github.com/earlybird3010/practice_projects/tree/main/Foundations/Calculator)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
