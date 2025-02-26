@@ -1,3 +1,5 @@
+import operator
+
 def print_options():
     print("1. Addition")
     print("2. Subtraction")
@@ -12,47 +14,37 @@ def calculator():
 
     while choice != 5:
         if choice == 1:
-            addition()
+            calc('+', ['first summand', 'second summand'])
         elif choice == 2:
-            subtraction()
+            calc('-', ['minuend', 'subtrahend'])
         elif choice == 3:
-            multiplication()
+            calc('*', ['multiplier', 'multiplicand'])
         elif choice == 4:
-            division()
+            calc('/', ['dividend', 'divisor'])
         else:
             print("Invalid option! Please try again!")
         print()
         print_options()
         choice = int(input())
 
-
-def addition():
-    print("Please enter the first summand: ")
+def func(operator_sign):
+    """Return the corresponding function of the operation"""
+    if operator_sign == '+':
+        return operator.add
+    elif operator_sign == '-':
+        return operator.sub
+    elif operator_sign == '*':
+        return operator.mul
+    elif operator_sign == '/':
+        return operator.truediv
+    
+def calc(operator_sign, variable_names):
+    print(f'Please enter the {variable_names[0]}: ')
     first = float(input())
-    print("Please enter the second summand: ")
+    print(f'Please enter the {variable_names[1]}: ')
     second = float(input())
-    print(f'The result of {first} + {second} is {first + second}')
+    operator_func = func(operator_sign)
+    print(f'The result of {first} {operator_sign} {second} is {operator_func(first, second)}')
 
-
-def subtraction():
-    print("Please enter the minuend: ")
-    first = float(input())
-    print("Please enter the subtrahend: ")
-    second = float(input())
-    print(f'The result of {first} - {second} is {first - second}')
-
-def multiplication():
-    print("Please enter the multiplier: ")
-    first = float(input())
-    print("Please enter the multiplicand: ")
-    second = float(input())
-    print(f'The result of {first} * {second} is {first * second}')
-
-def division():
-    print("Please enter the dividend: ")
-    first = float(input())
-    print("Please enter the divisor: ")
-    second = float(input())
-    print(f'The result of {first} / {second} is {first / second}')
 
 calculator()
