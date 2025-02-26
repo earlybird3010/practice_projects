@@ -1,5 +1,7 @@
 <!-- ABOUT THE PROJECT -->
-A simple command-line calculator built with Python.
+A simple command-line calculator built with Python. This calculator works as follows:
+- When you execute the program, it prompts you with a list of options to choose from. Right now, there are addition, subtraction, multiplication, and division. The number of variables required to execute an operation is constant. 
+- After you choose an option, the program requires all variables necessary for the computation. When you provide all the variables, the program returns the computational result.
 
 ### Built With
 
