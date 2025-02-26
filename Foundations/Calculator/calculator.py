@@ -33,7 +33,7 @@ def calculator():
         print()
 
 def func(operator_sign):
-    """Return the corresponding function of the operation"""
+    """Return the corresponding function of the operator_sign"""
     opsign_operator = {
         '+': operator.add,
         '-': operator.sub,
@@ -44,6 +44,7 @@ def func(operator_sign):
     return opsign_operator[operator_sign]
     
 def calc(operator_sign, variable_names):
+    """Prompting and present calculation based on OPERATOR_SIGN and VARIABLE_NAMES"""
     print(f'Please enter the {variable_names[0]}: ')
     while True:
         try: 
