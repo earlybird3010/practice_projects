@@ -34,6 +34,7 @@ You should have git and python3 installed.
 ## Roadmap
 
 - [x] Implement simple operations: addition, subtraction, multiplication, and division
+- [] Implement a close option. This way, the program doesn't stop after performing 1 computation.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
