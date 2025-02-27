@@ -213,30 +213,21 @@ def constant(symbol):
 ###########################################
 # Handling users' inputs for computation  #
 ###########################################
-def get_var_input(input):
-    """Get a variable's value from the input"""
-    try: 
-        result = float(input)
-    except ValueError:
-        print('Invalid input! Please try again.')
-        return
-    
-    return result
+def get_var_input(variable_name):
+    """Get a variable's value in float from the user for VARIABLE_NAME"""
+    while True:
+        print(f'Please enter the {variable_name}:')
+        try:
+            return float(input())
+        except ValueError:
+            print('Invalid input! Please enter a valid number.')
+
     
 def calc_operations(operator_sign, variable_names):
     """Prompting and present calculation of standard and advanced 
      math operations based on OPERATOR_SIGN and VARIABLE_NAMES"""
     
-    variables = []
-
-    for variable_name in variable_names:
-        print(f'Please enter the {variable_name}:')
-        
-        while True:
-            variable = get_var_input(input())
-            if isinstance(variable, float):
-                variables.append(variable)
-                break
+    variables = [get_var_input(variable_name) for variable_name in variable_names]
 
     correspondence_func = operators_func(operator_sign)
 
