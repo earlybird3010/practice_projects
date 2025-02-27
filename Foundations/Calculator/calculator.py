@@ -192,12 +192,13 @@ def is_invalid_arguments(operator_sign):
     invalid_args = {
         '/': lambda x, y: y == 0,
         '%': lambda x, y: y == 0,
-        'tan': lambda x: (x - math.pi / 2) % (2 * math.pi) == 0 or (x + math.pi / 2) % (2 * math.pi) == 0,
+        'tan': lambda x: math.isclose((x - math.pi / 2) % (2 * math.pi), 0) or math.isclose((x + math.pi / 2) % (2 * math.pi), 0),
         'cot': lambda x: x % math.pi == 0, 
         'asin': lambda x: -1 > x or x > 1,
         'acos': lambda x: -1 > x or x > 1,
-        'log': lambda anti_algorithm, base: base <= 0 or base == 1 or anti_algorithm <= 0 
-        }
+        'log': lambda antilogarithm, base: base <= 0 or base == 1 or antilogarithm <= 0,
+        'n-th root': lambda degree, radicand: degree == 0
+    }
     
     if operator_sign not in invalid_args:
         return lambda *variables : False
