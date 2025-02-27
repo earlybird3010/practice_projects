@@ -1,7 +1,8 @@
 <!-- ABOUT THE PROJECT -->
 A simple command-line calculator built with Python. This calculator works as follows:
-- When you execute the program, it prompts you with a list of options to choose from. Right now, there are addition, subtraction, multiplication, and division. The number of variables required to execute an operation is constant. 
-- After you choose an option, the program requires all variables necessary for the computation. When you provide all the variables, the program returns the computational result.
+- When you run the program, it leads you to the main menu. The main menu prompts you with a list of 3 categories: simple mathematical operations (+, -, *, /, ^, %), advanced mathematical operations (trigonometric functions, log, and n-th root), and mathematical constants(e, pi)
+- When you choose a category, it moves you to that session and provides you with a list of operations. You can choose a number to perform the corresponding operation. After performing 1 operation, you can choose to perform another one in the same session or exit to the main menu.
+- The program terminates when you choose to exit in the main menu.
 
 ### Built With
 
@@ -38,13 +39,16 @@ You should have git and python3 installed.
 - [x] Error handling: handle division by 0 and invalid inputs
 - [x] Advanced math operations: implement exponentiation, n-th root, log, trigonometric functions, etc.
 - [ ] History management: Keep track of some previous calculations
-- [ ] Equation solving: Try support for solving linear, quadratic, or even polynomial equations
+- [ ] Equation solving: Try support for solving linear, quadratic, or even polynomial equations. What about matrix operations such as addition, multiplication, inversion, etc.? What about solving system of linear equations?
+- [ ] Graphing capabilities: Plotting functions (matplotlib can help)
+- [ ] Statistics: Add a session for basic statistics (mean, median, mode, standard deviation, etc.)
 - [ ] Improved input enhancement: Users can directly type the expression to the console to obtain the result. Allow usage of parentheses
 - [ ] Unit conversion: Add a feature for converting between different units (length, weight, volume, etc.)
 - [ ] Scientific Notation and Precision Control: For very large and very small numbers, display the results in scientific notation. Allow the user to control the number of decimal places.
 - [ ] User Interface: build a GUI to enhance interactivity
 - [ ] Error Handling and Validation: cover most edge cases smoothly
 - [ ] Settings and Customization: users are able to customize themes, number formats, and display settings, and save preferences for future sessions.
+- [ ] User Profiles: Add the ability for users to save preferences or default values (e.g., set default units, constant values, etc.)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
