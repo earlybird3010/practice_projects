@@ -36,7 +36,7 @@ You should have git and python3 installed.
 - [x] Implement simple operations: addition, subtraction, multiplication, and division
 - [x] Implement an exit option. This way, the program doesn't stop after performing 1 computation.
 - [x] Error handling: handle division by 0 and invalid inputs
-- [ ] Advanced math operations: implement exponentiation, n-th root, log, trigonometric functions, etc.
+- [x] Advanced math operations: implement exponentiation, n-th root, log, trigonometric functions, etc.
 - [ ] History management: Keep track of some previous calculations
 - [ ] Equation solving: Try support for solving linear, quadratic, or even polynomial equations
 - [ ] Improved input enhancement: Users can directly type the expression to the console to obtain the result. Allow usage of parentheses

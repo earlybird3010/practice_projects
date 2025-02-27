@@ -52,118 +52,86 @@ def print_advanced_math_operators():
     """Print a list of mathematical functions and return the exit code"""
     return print_options(advanced_math_operators_menu)
 
-def print_math_constants():
+def print_constants():
     """Print a list of mathematical constants and return the exit code"""
     return print_options(constants_menu)
 
 ############################
 # Run computation sessions #
 ############################
-
-def run_standard_operators():
-    """Run the sessions that perform standard operations"""
+def run_sessions(session_name):
+    """Execute the session based on SESSION_NAME"""
     while True:
-        exit_code = print_standard_operators()
+        exit_code = session_infos[session_name]['print']()
         try:
             choice = int(input())
             print()
 
-            if choice not in standard_operators_menu:
-                print(invalid_option_msg)
-            else:
-                computation_choice = standard_operators_menu[choice]
-                if computation_choice == 'Addition':
-                    calc_operations('+', ['first summand', 'second summand'])
-                elif computation_choice == 'Subtraction':
-                    calc_operations('-', ['minuend', 'subtrahend'])
-                elif computation_choice == 'Multiplication':
-                    calc_operations('*', ['multiplier', 'multiplicand'])
-                elif computation_choice == 'Division':
-                    calc_operations('/', ['dividend', 'divisor'])
-                elif computation_choice == 'Exponentiation':
-                    calc_operations('^', ['base', 'power'])
-                elif computation_choice == 'Modulo':
-                    calc_operations('%', ['dividend', 'divisor'])
-                elif choice == exit_code:
-                    print(exit_to_menu_msg)
-                    break
-        except ValueError:
-            print(invalid_option_msg)
-        print()
-
-def run_advanced_math_operators():
-    """Run the sessions that perform standard operations"""
-    while True:
-        exit_code = print_advanced_math_operators()
-        try:
-            choice = int(input())
-            print()
-
-            if choice not in advanced_math_operators_menu:
-                print(invalid_option_msg)
-            else:
-                computation_choice = advanced_math_operators_menu[choice]
-                trig_names = ['sin', 'cos', 'tan', 'cot', 'asin', 'acos', 'atan']
-                if computation_choice in trig_names:
-                    calc_operations(computation_choice, ['angle'])
-                elif computation_choice == 'Logarithm':
-                    calc_operations('log', ['anti-algorithm', 'base'])
-                elif computation_choice == 'n-th root':
-                    calc_operations('n-th root', ['degree', 'radicand'])
-                elif choice == exit_code:
-                    print(exit_to_menu_msg)
-                    break
-        except ValueError:
-            print(invalid_option_msg)
-        print()
-
-def run_constants():
-    """Run the sessions that perform standard operations"""
-    while True:
-        exit_code = print_math_constants()
-        try:
-            choice = int(input())
-            print()
-
-            if choice == exit_code:
+            #Complete the program
+            if choice == exit_code and session_name == 'main':
+                print('Goodbye Great Master! Your humble servanr, Eniac, awaits for your next requests.')
+                for frame in goodbye_frames:
+                    print(frame)
+                break
+            elif choice == exit_code:
                 print(exit_to_menu_msg)
                 break
-            elif choice not in constants_menu:
+            
+            session_options = session_infos[session_name]['menu']
+            if choice not in session_options:
                 print(invalid_option_msg)
             else:
-                computation_choice = constants_menu[choice]
-                print(f'{computation_choice} = {constant(computation_choice)}')
+                computation_choice = session_options[choice]
+                session_infos[session_name]['run'](computation_choice)
         except ValueError:
             print(invalid_option_msg)
         print()
 
-def calculator():
-    print('Welcome Great Master! I am Eniac, your personal assistant. Please choose an option below for your computation!')
-    print()
-    while True:
-        exit_code = print_main_menu()
-        try:
-            choice = int(input())
-            print()
+def run_standard_computation(computation_choice):
+    """Run a standard computation"""
+    if computation_choice == 'Addition':
+        calc_operations('+', ['first summand', 'second summand'])
+    elif computation_choice == 'Subtraction':
+        calc_operations('-', ['minuend', 'subtrahend'])
+    elif computation_choice == 'Multiplication':
+        calc_operations('*', ['multiplier', 'multiplicand'])
+    elif computation_choice == 'Division':
+        calc_operations('/', ['dividend', 'divisor'])
+    elif computation_choice == 'Exponentiation':
+        calc_operations('^', ['base', 'power'])
+    elif computation_choice == 'Modulo':
+        calc_operations('%', ['dividend', 'divisor'])
 
-            if choice not in main_menu:
-                print(invalid_option_msg)
-            else:
-                computation_choice = main_menu[choice]
-                if computation_choice == 'Standard operations':
-                    run_standard_operators()
-                elif computation_choice == 'Advanced math operations':
-                    run_advanced_math_operators()
-                elif computation_choice == 'Math constants':
-                    run_constants()
-                elif choice == exit_code:
-                    print('Goodbye Great Master! Your humble servanr, Eniac, awaits for your next requests.')
-                    for frame in goodbye_frames:
-                        print(frame)
-                    break
-        except ValueError:
-            print(invalid_option_msg)
-        print()
+def run_advanced_math_computation(computation_choice):
+    """Run an advanced math computation"""
+    trig_names = ['sin', 'cos', 'tan', 'cot', 'asin', 'acos', 'atan']
+    if computation_choice in trig_names:
+            calc_operations(computation_choice, ['angle'])
+    elif computation_choice == 'Logarithm':
+            calc_operations('log', ['anti-algorithm', 'base'])
+    elif computation_choice == 'n-th root':
+            calc_operations('n-th root', ['degree', 'radicand'])
+
+def run_constant(computation_choice):
+    """Run the sessions that perform standard operations"""
+    print(f'{computation_choice} = {constant(computation_choice)}')
+
+def run_main_menu(computation_choice):
+    """Open the session associated with COMPUTATION_CHOICE"""
+    if computation_choice == 'Standard operations':
+        run_sessions('standard_operators')
+    elif computation_choice == 'Advanced math operations':
+        run_sessions('advanced_math_operators')
+    elif computation_choice == 'Math constants':
+        run_sessions('constants')
+
+session_infos = {'standard_operators': 
+                 {'print': print_standard_operators, 'menu': standard_operators_menu, 'run': run_standard_computation}, 
+                'advanced_math_operators': 
+                {'print': print_advanced_math_operators, 'menu': advanced_math_operators_menu, 'run': run_advanced_math_computation}, 
+                'constants': {'print': print_constants, 'menu': constants_menu, 'run': run_constant},
+                'main': {'print': print_main_menu, 'menu': main_menu, 'run': run_main_menu}
+                   }
 
 ###########################
 # Operators and constants #
@@ -250,5 +218,13 @@ def calc_operations(operator_sign, variable_names):
         print(f'The {variables[0]}-th root of {variables[1]} is {correspondence_func(*variables)}')
     elif len(variable_names) == 2:
         print(f'{variables[0]} {operator_sign} {variables[1]} = {correspondence_func(*variables)}')
-        
+
+##############
+# Calculator #
+##############
+def calculator():
+    print('Welcome Great Master! I am Eniac, your personal assistant. Please choose an option below for your computation!')
+    print()
+    run_sessions('main')
+
 calculator()
