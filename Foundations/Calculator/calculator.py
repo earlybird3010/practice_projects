@@ -1,5 +1,9 @@
 import operator, math
 
+invalid_option_msg = 'Invalid option! Please choose a valid option.'
+invalid_input_msg = 'Invalid input! Please choose a valid number.'
+invalid_args_msg = 'Invalid arguments! Please try again.'
+exit_to_menu_msg = 'Going back to main menu!'
 ####################
 # Printing options #
 ####################
@@ -69,12 +73,12 @@ def run_standard_operators():
             elif choice == 6:
                 calc_operations('%', ['dividend', 'divisor'])
             elif choice == exit_code:
-                print("Going back to main menu.")
+                print(exit_to_menu_msg)
                 break
             else:
-                print("Invalid option! Please try again.")
+                print(invalid_option_msg)
         except ValueError:
-            print("Invalid option! Please choose again")
+            print(invalid_option_msg)
         print()
 
 def run_advanced_math_operators():
@@ -104,13 +108,12 @@ def run_advanced_math_operators():
             elif choice == 9:
                 calc_operations('n-th root', ['degree', 'radicand'])
             elif choice == exit_code:
-                print("Going back to main menu.")
+                print(exit_to_menu_msg)
                 break
             else:
-                print("Invalid option! Please try again.")
+                print(invalid_option_msg)
         except ValueError:
-            print('In math session')
-            print("Invalid option! Please choose again")
+            print(invalid_option_msg)
         print()
 
 def run_constants():
@@ -126,12 +129,12 @@ def run_constants():
             elif choice == 2:
                 print(f'pi = {math.pi}')
             elif choice == exit_code:
-                print("Going back to main menu.")
+                print(exit_to_menu_msg)
                 break
             else:
-                print("Invalid option! Please try again.")
+                print(invalid_option_msg)
         except ValueError:
-            print("Invalid option! Please choose again")
+            print(invalid_option_msg)
         print()
 
 def calculator():
@@ -153,9 +156,9 @@ def calculator():
                 print("Goodbye Master! Your humble servant, Eniac, awaits to serve you next time.")
                 break
             else:
-                print("Invalid option! Please try again.")
+                print(invalid_option_msg)
         except ValueError:
-            print("Invalid option! Please choose again")
+            print(invalid_option_msg)
         print()
 
 ###########################
@@ -220,19 +223,20 @@ def get_var_input(variable_name):
         try:
             return float(input())
         except ValueError:
-            print('Invalid input! Please enter a valid number.')
+            print(invalid_input_msg)
 
     
 def calc_operations(operator_sign, variable_names):
-    """Prompting and present calculation of standard and advanced 
-     math operations based on OPERATOR_SIGN and VARIABLE_NAMES"""
+    """Present calculation of standard and advanced 
+     math operations based on OPERATOR_SIGN and VARIABLE_NAMES using the inputs from the
+     users"""
     
     variables = [get_var_input(variable_name) for variable_name in variable_names]
 
     correspondence_func = operators_func(operator_sign)
 
     if is_invalid_arguments(operator_sign)(*variables):
-        print("Invalid arguments! Please try again.")
+        print(invalid_args_msg)
     elif len(variable_names) == 1:
         print(f'{operator_sign}({variables[0]}) = {correspondence_func(*variables)}')
     elif operator_sign == 'log':
