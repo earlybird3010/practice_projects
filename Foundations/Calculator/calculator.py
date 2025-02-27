@@ -4,49 +4,57 @@ invalid_option_msg = 'Invalid option! Please choose a valid option.'
 invalid_input_msg = 'Invalid input! Please choose a valid number.'
 invalid_args_msg = 'Invalid arguments! Please try again.'
 exit_to_menu_msg = 'Going back to main menu!'
+
+goodbye_frames = [
+    """
+     GGGGG   OOOOO   OOOOO   DDDDDD    BBBBB   Y   Y   EEEEE
+    G        O   O   O   O   D     D   B    B    Y Y    E
+    G  GG    O   O   O   O   D     D   BBBBB      Y     EEEE
+    G   G    O   O   O   O   D     D   B    B     Y     E
+     GGGG    OOOOO   OOOOO   DDDDDD    BBBBB     Y     EEEEE
+    """
+]
+
+
+#################
+# Options_dicts #
+#################
+main_menu = {1: 'Standard operations', 2: 'Advanced math operations', 3: 'Math constants', 4: 'Exit'}
+standard_operators_menu = {1: 'Addition', 2: 'Subtraction', 3: 'Multiplication', 4: 'Division', 5: 'Exponentiation',
+6: 'Modulo', 7: 'Back'}
+advanced_math_operators_menu = {1: 'sin', 2: 'cos', 3: 'tan', 4: 'cot', 5: 'asin', 6: 'acos', 7: 'atan', 8: 'Logarithm',
+9: 'n-th root', 10: 'Back'}
+constants_menu = {1: 'e', 2: 'pi', 3: 'Back'}
+
+
 ####################
 # Printing options #
 ####################
+def print_options(options): 
+    """Print a list of options from OPTIONS dictionary and return the exit code, i.e, the key of Exit or Back"""
+    exit_code = None
+    for option_num in options:
+        print(f'{option_num}. {options[option_num]}')
+        if options[option_num] == 'Exit' or options[option_num] == 'Back':
+            exit_code = option_num
+    
+    return exit_code
 
 def print_main_menu():
     """Print the a list of categories of computations and return the exit code"""
-    print("1. Standard operations")
-    print("2. Advanced math operations")
-    print("3. Math constants")
-    print("4. Exit")
-    return 4
+    return print_options(main_menu)
 
 def print_standard_operators():
     """Print a list of standard operations and return the exit code"""
-    print("1. Addition")
-    print("2. Subtraction")
-    print("3. Multiplication")
-    print("4. Division")
-    print("5. Exponentiation")
-    print("6. Modulo")
-    print("7. Back to the main menu")
-    return 7
+    return print_options(standard_operators_menu)
 
 def print_advanced_math_operators():
     """Print a list of mathematical functions and return the exit code"""
-    print("1. sin")
-    print("2. cos")
-    print("3. tan")
-    print("4. cot")
-    print("5. asin")
-    print("6. acos")
-    print("7. atan")
-    print("8. Logarithmic")
-    print("9. nth root")
-    print("10. Back to the main menu")
-    return 10
+    return print_options(advanced_math_operators_menu)
 
 def print_math_constants():
     """Print a list of mathematical constants and return the exit code"""
-    print("1. e")
-    print("2. pi")
-    print("3. Back to the main menu")
-    return 3
+    return print_options(constants_menu)
 
 ############################
 # Run computation sessions #
@@ -60,23 +68,25 @@ def run_standard_operators():
             choice = int(input())
             print()
 
-            if choice == 1:
-                calc_operations('+', ['first summand', 'second summand'])
-            elif choice == 2:
-                calc_operations('-', ['minuend', 'subtrahend'])
-            elif choice == 3:
-                calc_operations('*', ['multiplier', 'multiplicand'])
-            elif choice == 4:
-                calc_operations('/', ['dividend', 'divisor'])
-            elif choice == 5:
-                calc_operations('^', ['base', 'power'])
-            elif choice == 6:
-                calc_operations('%', ['dividend', 'divisor'])
-            elif choice == exit_code:
-                print(exit_to_menu_msg)
-                break
-            else:
+            if choice not in standard_operators_menu:
                 print(invalid_option_msg)
+            else:
+                computation_choice = standard_operators_menu[choice]
+                if computation_choice == 'Addition':
+                    calc_operations('+', ['first summand', 'second summand'])
+                elif computation_choice == 'Subtraction':
+                    calc_operations('-', ['minuend', 'subtrahend'])
+                elif computation_choice == 'Multiplication':
+                    calc_operations('*', ['multiplier', 'multiplicand'])
+                elif computation_choice == 'Division':
+                    calc_operations('/', ['dividend', 'divisor'])
+                elif computation_choice == 'Exponentiation':
+                    calc_operations('^', ['base', 'power'])
+                elif computation_choice == 'Modulo':
+                    calc_operations('%', ['dividend', 'divisor'])
+                elif choice == exit_code:
+                    print(exit_to_menu_msg)
+                    break
         except ValueError:
             print(invalid_option_msg)
         print()
@@ -89,29 +99,20 @@ def run_advanced_math_operators():
             choice = int(input())
             print()
 
-            if choice == 1:
-                calc_operations('sin', ['angle'])
-            elif choice == 2:
-                calc_operations('cos', ['angle'])
-            elif choice == 3:
-                calc_operations('tan', ['angle'])
-            elif choice == 4:
-                calc_operations('cot', ['angle'])
-            elif choice == 5:
-                calc_operations('asin', ['angle'])
-            elif choice == 6:
-                calc_operations('acos', ['angle'])
-            elif choice == 7:
-                calc_operations('atan', ['angle'])
-            elif choice == 8:
-                calc_operations('log', ['anti-algorithm', 'base'])
-            elif choice == 9:
-                calc_operations('n-th root', ['degree', 'radicand'])
-            elif choice == exit_code:
-                print(exit_to_menu_msg)
-                break
-            else:
+            if choice not in advanced_math_operators_menu:
                 print(invalid_option_msg)
+            else:
+                computation_choice = advanced_math_operators_menu[choice]
+                trig_names = ['sin', 'cos', 'tan', 'cot', 'asin', 'acos', 'atan']
+                if computation_choice in trig_names:
+                    calc_operations(computation_choice, ['angle'])
+                elif computation_choice == 'Logarithm':
+                    calc_operations('log', ['anti-algorithm', 'base'])
+                elif computation_choice == 'n-th root':
+                    calc_operations('n-th root', ['degree', 'radicand'])
+                elif choice == exit_code:
+                    print(exit_to_menu_msg)
+                    break
         except ValueError:
             print(invalid_option_msg)
         print()
@@ -124,15 +125,14 @@ def run_constants():
             choice = int(input())
             print()
 
-            if choice == 1:
-                print(f'e = {math.e}')
-            elif choice == 2:
-                print(f'pi = {math.pi}')
-            elif choice == exit_code:
+            if choice == exit_code:
                 print(exit_to_menu_msg)
                 break
-            else:
+            elif choice not in constants_menu:
                 print(invalid_option_msg)
+            else:
+                computation_choice = constants_menu[choice]
+                print(f'{computation_choice} = {constant(computation_choice)}')
         except ValueError:
             print(invalid_option_msg)
         print()
@@ -146,17 +146,21 @@ def calculator():
             choice = int(input())
             print()
 
-            if choice == 1:
-                run_standard_operators()
-            elif choice == 2:
-                run_advanced_math_operators()
-            elif choice == 3:
-                run_constants()
-            elif choice == exit_code:
-                print("Goodbye Master! Your humble servant, Eniac, awaits to serve you next time.")
-                break
-            else:
+            if choice not in main_menu:
                 print(invalid_option_msg)
+            else:
+                computation_choice = main_menu[choice]
+                if computation_choice == 'Standard operations':
+                    run_standard_operators()
+                elif computation_choice == 'Advanced math operations':
+                    run_advanced_math_operators()
+                elif computation_choice == 'Math constants':
+                    run_constants()
+                elif choice == exit_code:
+                    print('Goodbye Great Master! Your humble servanr, Eniac, awaits for your next requests.')
+                    for frame in goodbye_frames:
+                        print(frame)
+                    break
         except ValueError:
             print(invalid_option_msg)
         print()
