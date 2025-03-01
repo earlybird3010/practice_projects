@@ -43,12 +43,13 @@ You should have git and python3 installed.
 - [ ] Graphing capabilities: Plotting functions (matplotlib can help)
 - [ ] Statistics: Add a session for basic statistics (mean, median, mode, standard deviation, etc.)
 - [ ] Improved input enhancement: Users can directly type the expression to the console to obtain the result. Allow usage of parentheses
-- [ ] Unit conversion: Add a feature for converting between different units (length, weight, volume, etc.)
+- [ ] Unit conversion: Add a feature for converting between different units (length, weight, temperature, volume, etc.)
 - [ ] Scientific Notation and Precision Control: For very large and very small numbers, display the results in scientific notation. Allow the user to control the number of decimal places.
 - [ ] User Interface: build a GUI to enhance interactivity
 - [ ] Error Handling and Validation: cover most edge cases smoothly
 - [ ] Settings and Customization: users are able to customize themes, number formats, and display settings, and save preferences for future sessions.
 - [ ] User Profiles: Add the ability for users to save preferences or default values (e.g., set default units, constant values, etc.)
+- [ ] Tip Calculator: A private session to calculate tips for a meal
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
