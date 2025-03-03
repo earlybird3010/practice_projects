@@ -6,8 +6,6 @@ invalid_args_msg = 'Invalid arguments! Please try again.'
 invalid_save_options = 'Invalid option! Please choose Y or N.'
 exit_to_menu_msg = 'Going back to main menu!'
 
-prev_calc_results = []
-
 goodbye_frames = [
     """
      GGGGG   OOOOO   OOOOO   DDDDDD    BBBBB   Y   Y   EEEEE
@@ -18,6 +16,10 @@ goodbye_frames = [
     """
 ]
 
+################
+# Prev results #
+################
+prev_calc_results = []
 
 #################
 # Options_dicts #
@@ -30,26 +32,83 @@ advanced_math_operators_menu = {1: 'sin', 2: 'cos', 3: 'tan', 4: 'cot', 5: 'asin
 constants_menu = {1: 'e', 2: 'pi', 3: 'Back'}
 history_menu = {1: 'View', 2: 'Delete', 3: 'Back'}
 
+#############
+# Operators #
+#############
+def view_history(prev_calculations_no):
+    """
+    Print the last PREV_CALCULATIONS_NO calculation, assuming PREV_CALCULATIONS_NO is a valid input
+    """
+    for i in range(prev_calculations_no):
+        print(prev_calc_results[i])
+
+def delete_history(pos):
+    """
+    Delete the POS-th most recent computation result from history, assuming POS is valid 
+    """
+    prev_calc_results.pop(pos - 1)
+
+##########################
+# Variables' constraints #
+##########################
+is_invalid_args = {
+        '/': lambda x, y: y == 0,
+        '%': lambda x, y: y == 0,
+        '^': lambda x, y: x == 0 and y == 0,
+        'tan': lambda x: math.isclose((x - math.pi / 2) % (2 * math.pi), 0) or math.isclose((x + math.pi / 2) % (2 * math.pi), 0),
+        'cot': lambda x: x % math.pi == 0, 
+        'asin': lambda x: -1 > x or x > 1,
+        'acos': lambda x: -1 > x or x > 1,
+        'log': lambda antilogarithm, base: base <= 0 or base == 1 or antilogarithm <= 0,
+        'n-th root': lambda degree, radicand: degree == 0,
+        'view_history': lambda n: n < 0 or n > len(prev_calc_results),
+        'delete_history': lambda pos: pos < 1 or pos > len(prev_calc_results)
+    }
+
 ########################
 # Options informations #
 ########################
-trig_funcs = ['sin', 'cos', 'tan', 'cot', 'asin', 'acos', 'atan']
-math_options_infos = {'Addition': ['+', ['first summand', 'second summand']],
-                 'Subtraction': ['-', ['minuend', 'subtrahend']],
-                 'Multiplication': ['*', ['multiplier', 'multiplicand']],
-                 'Division': ['/', ['dividend', 'divisor']],
-                 'Exponentiation': ['^', ['base', 'power']],
-                 'Modulo': ['%', ['dividend', 'divisor']],
-                 'Logarithm': ['log', ['anti_algorithm', 'base']],
-                 'n-th root': ['n-th root', ['degree', 'radicand']]
+
+# To perform an action in a session, we need the variables' names, the operator that we use to return results 
+# based on those names, restrictions of variables based on the operator, 
+# and the corresponding symbols that we interpolate into the message string  
+math_options_infos = {'Addition': {'symbol': '+', 'variables_names': ['first summand', 'second summand'], 'operator': operator.add},
+                 'Subtraction': {'symbol': '-', 'variables_names': ['minuend', 'subtrahend'], 'operator': operator.sub},
+                 'Multiplication': {'symbol': '*', 'variables_names': ['multiplier', 'multiplicand'], 'operator': operator.mul},
+                 'Division': {'symbol': '/', 'variables_names': ['dividend', 'divisor'], 'operator': operator.truediv},
+                 'Exponentiation': {'symbol': '^', 'variables_names': ['base', 'power'], 'operator': math.pow},
+                 'Modulo': {'symbol': '%', 'variables_names': ['dividend', 'divisor'], 'operator': operator.mod},
+                 'Logarithm': {'symbol': 'log', 'variables_names': ['anti_algorithm', 'base'], 'operator': math.log},
+                 'n-th root': {'symbol': 'n-th root', 'variables_names': ['degree', 'radicand'], 'operator': lambda degree, radicand: pow(radicand, 1 / degree)},
+                 'sin': {'symbol': 'sin', 'variables_names': ['angle'], 'operator': math.sin},
+                 'cos': {'symbol': 'cos', 'variables_names': ['angle'], 'operator': math.cos},
+                 'tan': {'symbol': 'tan', 'variables_names': ['angle'], 'operator': math.tan},
+                 'cot': {'symbol': 'cot', 'variables_names': ['angle'], 'operator': lambda x: math.cos(x) / math.sin(x)},
+                 'asin': {'symbol': 'asin', 'variables_names': ['angle'], 'operator': math.asin},
+                 'acos': {'symbol': 'acos', 'variables_names': ['angle'], 'operator': math.acos},
+                 'atan': {'symbol': 'atan', 'variables_names': ['angle'], 'operator': math.atan},
                  }
-for trig_func in trig_funcs:
-    math_options_infos[trig_func] = [trig_func, ['angle']]
 
 constants_options_infos = {'pi': math.pi, 'e': math.e}
 
-history_options_infos = {'View': ['view_history', ['number of previous computations for viewing']], 
-                         'Delete': ['delete_history', ['position of a previous computation for delete']]}
+history_options_infos = {'View': {'symbol': 'view_history', 'variables_names': 
+                                  ['number of previous computations for viewing'], 'operator': view_history}, 
+                         'Delete': {'symbol': 'delete_history', 'variables_names': 
+                                    ['position of a previous computation for delete'], 'operator': delete_history}}
+
+constants_options_infp = {'pi': {'symbol': 'pi', 'variables_names': [], 'operator': lambda: math.pi},
+                          'e': {'symbol': 'e', 'variables_names': [], 'operator': lambda: math.e}}
+
+def add_is_invalid_args(options_type):
+    for option_type in options_type:
+        symbol = options_type[option_type]['symbol']
+        if symbol in is_invalid_args:
+            options_type[option_type]['is_invalid_args'] = is_invalid_args[symbol]
+        else:
+            options_type[option_type]['is_invalid_args'] = lambda *variables: False
+
+add_is_invalid_args(math_options_infos)
+add_is_invalid_args(history_options_infos)
 
 ####################
 # Printing options #
@@ -115,20 +174,20 @@ def run_math_computation(computation_choice):
     """
     Run a math computation that matches COMPUTATION_CHOICE
     """
-    computation_symbol = math_options_infos[computation_choice][0]
-    variables_names = math_options_infos[computation_choice][1]
+    symbol = math_options_infos[computation_choice]['symbol']
+    variables_names = math_options_infos[computation_choice]['variables_names']
     
-    calc_operations(computation_symbol, variables_names)
+    calc_math(computation_choice, symbol, variables_names)
 
 def run_constant(choice):
     """Run the sessions that prints out constant values based on COMPUTATION_CHOICE (the symbol of the constant)"""
     print(f'{choice} = {constants_options_infos[choice]}')
                     
 def run_history(choice):
-    option_symbol = history_options_infos[choice][0]
-    variables_names = history_options_infos[choice][1]
+    option_symbol = history_options_infos[choice]['symbol']
+    variables_names = history_options_infos[choice]['variables_names']
 
-    calc_history(option_symbol, variables_names)
+    calc_history(choice, variables_names)
 
 def run_main_menu(computation_choice):
     """Open the session associated with COMPUTATION_CHOICE"""
@@ -150,68 +209,6 @@ session_infos = {'standard_operators':
                 'history': {'print': print_history, 'menu': history_menu, 'run': run_history}
                    }
 
-###########################
-# Operators and constants #
-###########################
-def operators_func(operator_sign):
-    """Return the corresponding function of the operator_sign"""
-    opsign_operator = {
-        '+': operator.add,
-        '-': operator.sub,
-        '*': operator.mul,
-        '/': operator.truediv,
-        '^': math.pow,
-        '%': operator.mod,
-        'sin': math.sin,
-        'cos': math.cos,
-        'tan': math.tan,
-        'cot': lambda x: 1 / math.tan(x),
-        'asin': math.asin,
-        'acos': math.acos,
-        'atan': math.atan,
-        'log': math.log,
-        'n-th root': lambda degree, radicand: pow(radicand, 1 / degree),
-        'view_history': view_history,
-        'delete_history': delete_history
-    }
-
-    return opsign_operator[operator_sign]
-
-def view_history(prev_calculations_no):
-    """
-    Print the last PREV_CALCULATIONS_NO calculation, assuming PREV_CALCULATIONS_NO is a valid input
-    """
-    for i in range(prev_calculations_no):
-        print(prev_calc_results[i])
-
-def delete_history(pos):
-    """
-    Delete the POS-th most recent computation result from history, assuming POS is valid 
-    """
-    prev_calc_results.pop(pos - 1)
-
-
-def is_invalid_arguments(operator_sign):
-    """Return a function that returns True if some arguments for an operator
-    corresponding to OPERATOR_SIGN is invalid"""
-    invalid_args = {
-        '/': lambda x, y: y == 0,
-        '%': lambda x, y: y == 0,
-        '^': lambda x, y: x == 0 and y == 0,
-        'tan': lambda x: math.isclose((x - math.pi / 2) % (2 * math.pi), 0) or math.isclose((x + math.pi / 2) % (2 * math.pi), 0),
-        'cot': lambda x: x % math.pi == 0, 
-        'asin': lambda x: -1 > x or x > 1,
-        'acos': lambda x: -1 > x or x > 1,
-        'log': lambda antilogarithm, base: base <= 0 or base == 1 or antilogarithm <= 0,
-        'n-th root': lambda degree, radicand: degree == 0,
-        'view_history': lambda n: n < 0 or n > len(prev_calc_results),
-        'delete_history': lambda pos: pos < 1 or pos > len(prev_calc_results)
-    }
-    
-    if operator_sign not in invalid_args:
-        return lambda *variables : False
-    
-    return invalid_args[operator_sign]
 
 ###########################################
 # Handling users' inputs for computation  #
@@ -258,47 +255,57 @@ def get_int_input(variable_name):
 # Computation #
 ###############
     
-def calc_operations(operator_sign, variable_names):
-    """Present calculation of standard and advanced 
-     math operations based on OPERATOR_SIGN and VARIABLE_NAMES using the inputs from the
-     users"""
+def calc_math(session_name, symbol, variables_names):
+    """
+    Present calculation of standard and advanced 
+    math operations based on SESSION_NAME we are in, the corresponding SYMBOL, 
+    and VARIABLE_NAMES using the inputs from the
+    users
+    """
     
-    variables = [get_float_input(variable_name) for variable_name in variable_names]
+    variables = [get_float_input(variable_name) for variable_name in variables_names]
 
-    correspondence_func = operators_func(operator_sign)
+    corresponding_func = math_options_infos[session_name]['operator']
 
-    if is_invalid_arguments(operator_sign)(*variables):
+    if math_options_infos[session_name]['is_invalid_args'](*variables):
         print(invalid_args_msg)
         return
 
-    computation_result = correspondence_func(*variables)
+    computation_result = corresponding_func(*variables)
     output_msg = None
 
-    if len(variable_names) == 1:
-        output_msg = f'{operator_sign}({variables[0]}) = {computation_result}'
-    elif operator_sign == 'log':
+    if len(variables_names) == 1:
+        output_msg = f'{symbol}({variables[0]}) = {computation_result}'
+    elif symbol == 'log':
         output_msg = f'The logarithm of {variables[0]} with respect to base {variables[1]} is {computation_result}'
-    elif operator_sign == 'n-th root':
+    elif symbol == 'n-th root':
         output_msg = f'The {variables[0]}-th root of {variables[1]} is {computation_result}'
-    elif len(variable_names) == 2:
-        output_msg = f'{variables[0]} {operator_sign} {variables[1]} = {computation_result}'
+    elif len(variables_names) == 2:
+        output_msg = f'{variables[0]} {symbol} {variables[1]} = {computation_result}'
     
     print(output_msg)
     save(output_msg)
 
-def calc_history(operator_sign, variables_names):
+def calc_history(session_name, variables_names):
     """
     View or delete some previous calculations
     """
     variables = [get_int_input(variable_name) for variable_name in variables_names]
 
-    correspondence_func = operators_func(operator_sign)
+    corresponding_func = history_options_infos[session_name]['operator']
 
-    if is_invalid_arguments(operator_sign)(*variables):
+    if history_options_infos[session_name]['is_invalid_args'](*variables):
         print(invalid_args_msg)
         return
     
-    correspondence_func(*variables)
+    corresponding_func(*variables)
+
+def calc_constants(operator_sign):
+    """
+    View some math constants
+    """
+    corresponding_func = constants_options_infos[operator_sign]['operator']
+    print(corresponding_func())
 
 ##########
 # Saving #
