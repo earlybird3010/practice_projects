@@ -1,0 +1,308 @@
+1. Simple Operations
+Operators: +, -, *, /, ^ (exponentiation), % (modulo)
+
+Test Cases:
+
+Basic Arithmetic:
+
+Addition: 2 + 3 → Expected: 5
+
+Subtraction: 7 - 5 → Expected: 2
+
+Multiplication: 4 * 6 → Expected: 24
+
+Division: 8 / 2 → Expected: 4
+
+Exponentiation: 2 ^ 3 → Expected: 8
+
+Modulo: 10 % 3 → Expected: 1
+
+Zero and Identity Elements:
+
+0 + 5 → 5
+
+5 - 0 → 5
+
+0 * 7 → 0
+
+7 * 1 → 7
+
+0 ^ 5 → 0 (except 0 ^ 0, see edge cases)
+
+5 % 1 → 0
+
+Negative Numbers:
+
+-3 + (-2) → -5
+
+-5 - (-7) → 2
+
+-4 * 3 → -12
+
+12 / -3 → -4
+
+-2 ^ 3 → -8 (since (-2)^3)
+
+-10 % 3 → -1 or 2 (depending on language conventions)
+
+Decimals and Fractions:
+
+2.5 + 3.1 → 5.6
+
+7.5 - 2.3 → 5.2
+
+3.6 * 2 → 7.2
+
+5.5 / 2 → 2.75
+
+9 ^ 0.5 → 3 (square root)
+
+Edge Cases:
+
+Division by Zero: 5 / 0 → Expected: Error message
+
+Zero to the Power of Zero: 0 ^ 0 → Expected: Undefined or Error
+
+Negative Exponentiation: 2 ^ -2 → 0.25
+
+Modulo by Zero: 5 % 0 → Expected: Error message
+
+Large Numbers: 1e10 * 1e10 → Test for overflow
+
+Combinations and Order of Operations:
+
+2 + 3 * 4 → Expected: 14 (ensure multiplication before addition)
+
+(2 + 3) * 4 → Expected: 20 (if parentheses are supported)
+
+6 / 2 * (1 + 2) → Expected: 9
+
+2. Advanced Math Operators
+Functions: sin, cos, tan, cot, asin, acos, atan, log, n-th root
+
+Test Cases:
+
+Trigonometric Functions (Assuming Radians):
+
+sin(0) → 0
+
+sin(π/2) → 1 (Use 3.1416 for π if necessary)
+
+cos(0) → 1
+
+cos(π) → -1
+
+tan(0) → 0
+
+tan(π/4) → 1
+
+Cotangent:
+
+cot(π/4) → 1
+
+Note: cot(0) → Expected: Undefined or Error
+
+Inverse Trigonometric Functions:
+
+asin(1) → π/2 or 1.5708
+
+acos(0) → π/2 or 1.5708
+
+atan(1) → π/4 or 0.7854
+
+Edge Cases:
+
+asin(2) → Expected: Error (Domain is [-1,1])
+
+acos(-2) → Expected: Error
+
+Logarithms:
+
+Natural Log: ln(e) → 1
+
+ln(1) → 0
+
+Base 10 Log: log(10) → 1
+
+log(100) → 2
+
+Edge Cases:
+
+ln(0) → Expected: Undefined or Error
+
+log(-1) → Expected: Error
+
+n-th Root:
+
+Square Root: √4 or nrt(4,2) → 2
+
+Cube Root: nrt(27,3) → 3
+
+Edge Cases:
+
+Even Root of Negative Number: √(-4) → Expected: Error or Complex Number
+
+Zero Root: nrt(8,0) → Expected: Undefined or Error
+
+Domain and Range Checks:
+
+Ensure functions handle inputs only within their valid domains.
+
+Test periodicity and symmetry where applicable.
+
+3. Constants Viewing
+Constants: e, π
+
+Test Cases:
+
+Display e:
+
+Expected: 2.718281828... (test the precision up to at least 10 decimal places)
+
+Display π:
+
+Expected: 3.1415926535... (test the precision)
+
+Usage in Calculations:
+
+e ^ 1 → Should return e
+
+sin(π) → Should return approximately 0 (test for floating-point errors)
+
+ln(e ^ 2) → Should return 2
+
+4. History Functionality
+Operations:
+
+Viewing History:
+
+Perform a series of calculations and then view history.
+
+Expected: All previous computations are listed in order.
+
+Deleting Computations:
+
+Delete the last computation.
+
+Expected: Last entry is removed from history.
+
+Delete a specific computation (e.g., second computation).
+
+Expected: Specific entry is removed; others remain intact.
+
+Clear All History.
+
+Expected: History is empty upon viewing.
+
+Edge Cases:
+
+Deleting from an empty history.
+
+Expected: Appropriate message indicating history is empty.
+
+Viewing history after restarting the program (if persistent storage is implemented).
+
+Verify that history maintains correct sequence after deletions.
+
+5. Menu Navigation and Interaction
+Menus:
+
+Main Menu Options:
+
+Simple Operations
+
+Math Operators
+
+Constants
+
+History
+
+Exit
+
+Test Cases:
+
+Navigation:
+
+Select each menu option and verify it leads to the correct submenu or action.
+
+From each submenu, choose the Exit option.
+
+Expected: Returns to Main Menu.
+
+From Main Menu, select Exit.
+
+Expected: Program terminates gracefully.
+
+Invalid Inputs:
+
+Inputting invalid menu choices (e.g., letters, numbers outside of option range).
+
+Expected: Proper error message and prompt to re-enter choice.
+
+Rapid Selections:
+
+Quickly navigate through menus to test for stability.
+
+Expected: No crashes or unexpected behavior.
+
+6. Program Termination
+Test Cases:
+
+Exiting from Submenus:
+
+Ensure that selecting Exit from any submenu returns to Main Menu every time.
+
+Exiting from Main Menu:
+
+Select Exit.
+
+Expected: Program closes without errors.
+
+Unexpected Shutdowns:
+
+Force close the program during operation (if possible).
+
+Expected: No corruption of data or settings upon restart.
+
+Additional Testing Considerations
+Input Validation:
+
+Invalid Numeric Inputs:
+
+Letters: Input a + b
+
+Expected: Error message prompting for valid numbers.
+
+Special Characters: Input @ + #
+
+Expected: Same as above.
+
+Function Inputs:
+
+sin('abc') → Expected: Error indicating invalid input.
+
+log('') → Expected: Error for empty input.
+
+Boundary Values:
+
+Maximum and minimum values supported by the calculator.
+
+Expected: Correct calculations or appropriate error messages for overflows.
+
+User Interface and Experience:
+
+Clarity of Messages:
+
+Ensure prompts are clear and instructive.
+
+Error messages should inform the user of the exact issue and how to correct it.
+
+Consistency:
+
+Uniform format for displaying results.
+
+Consistent terminology across menus and instructions.
+
+Accessibility:
+
+Test with different input methods if applicable (keyboard, touch).
