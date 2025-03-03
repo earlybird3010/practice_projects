@@ -3,7 +3,10 @@ import operator, math
 invalid_option_msg = 'Invalid option! Please choose a valid option.'
 invalid_input_msg = 'Invalid input! Please choose a valid number.'
 invalid_args_msg = 'Invalid arguments! Please try again.'
+invalid_save_options = 'Invalid option! Please choose Y or N.'
 exit_to_menu_msg = 'Going back to main menu!'
+
+prev_calc_results = []
 
 goodbye_frames = [
     """
@@ -25,6 +28,7 @@ standard_operators_menu = {1: 'Addition', 2: 'Subtraction', 3: 'Multiplication',
 advanced_math_operators_menu = {1: 'sin', 2: 'cos', 3: 'tan', 4: 'cot', 5: 'asin', 6: 'acos', 7: 'atan', 8: 'Logarithm',
 9: 'n-th root', 10: 'Back'}
 constants_menu = {1: 'e', 2: 'pi', 3: 'Back'}
+history_menu = {1: 'View', 2: 'Edit', 3: 'Back'}
 
 
 ####################
@@ -56,6 +60,11 @@ def print_constants():
     """Print a list of mathematical constants and return the exit code"""
     return print_options(constants_menu)
 
+def print_history():
+    """Print a list of options to manage the previous computational results"""
+    return print_history(history_menu)
+    
+
 ############################
 # Run computation sessions #
 ############################
@@ -63,29 +72,25 @@ def run_sessions(session_name):
     """Execute the session based on SESSION_NAME"""
     while True:
         exit_code = session_infos[session_name]['print']()
-        try:
-            choice = int(input())
-            print()
-
-            #Complete the program
-            if choice == exit_code and session_name == 'main':
-                print('Goodbye Great Master! Your humble servanr, Eniac, awaits for your next requests.')
-                for frame in goodbye_frames:
-                    print(frame)
-                break
-            elif choice == exit_code:
-                print(exit_to_menu_msg)
-                break
-            
-            session_options = session_infos[session_name]['menu']
-            if choice not in session_options:
-                print(invalid_option_msg)
-            else:
-                computation_choice = session_options[choice]
-                session_infos[session_name]['run'](computation_choice)
-        except ValueError:
-            print(invalid_option_msg)
+        choice = int(get_user_input('Please choose a number from the available options: ', 
+                                lambda x: x.isnumeric() and int(x) in session_infos[session_name]['menu'], 
+                                invalid_option_msg))
+        
         print()
+        if choice == exit_code and session_name == 'main':
+            print('Goodbye Great Master! Your humble servanr, Eniac, awaits for your next requests.')
+            for frame in goodbye_frames:
+                print(frame)
+            break
+        elif choice == exit_code:
+            print(exit_to_menu_msg)
+            break
+        else:
+            computation_choice = session_infos[session_name]['menu'][choice]
+            session_infos[session_name]['run'](computation_choice)
+        
+        print()
+        
 
 def run_standard_computation(computation_choice):
     """Run a standard computation"""
@@ -113,8 +118,11 @@ def run_advanced_math_computation(computation_choice):
             calc_operations('n-th root', ['degree', 'radicand'])
 
 def run_constant(computation_choice):
-    """Run the sessions that perform standard operations"""
+    """Run the sessions that prints out constant values"""
     print(f'{computation_choice} = {constant(computation_choice)}')
+                    
+def run_history():
+    return
 
 def run_main_menu(computation_choice):
     """Open the session associated with COMPUTATION_CHOICE"""
@@ -130,7 +138,8 @@ session_infos = {'standard_operators':
                 'advanced_math_operators': 
                 {'print': print_advanced_math_operators, 'menu': advanced_math_operators_menu, 'run': run_advanced_math_computation}, 
                 'constants': {'print': print_constants, 'menu': constants_menu, 'run': run_constant},
-                'main': {'print': print_main_menu, 'menu': main_menu, 'run': run_main_menu}
+                'main': {'print': print_main_menu, 'menu': main_menu, 'run': run_main_menu},
+                'history': {'print': print_history, 'menu': history_menu, 'run': run_history}
                    }
 
 ###########################
@@ -189,15 +198,33 @@ def constant(symbol):
 ###########################################
 # Handling users' inputs for computation  #
 ###########################################
+def get_user_input(msg, condition, error_msg):
+    """Keep asking a user for input using MSG until CONDITION is met"""
+    usr_input = input(msg)
+
+    while not condition(usr_input):
+        print(error_msg)
+        usr_input = input(msg)
+    
+    return usr_input
+
+
 def get_var_input(variable_name):
     """Get a variable's value in float from the user for VARIABLE_NAME"""
-    while True:
-        print(f'Please enter the {variable_name}:')
+    def is_number(s):
+        """Return True if string S can be converted to a float or int, False otherwise"""
         try:
-            return float(input())
+            return float(s)
         except ValueError:
-            print(invalid_input_msg)
+            return False
+        
+    msg = f'Please enter the {variable_name}: '
+    usr_input = get_user_input(msg, is_number, invalid_input_msg)
+    return float(usr_input)
 
+###############
+# Computation #
+###############
     
 def calc_operations(operator_sign, variable_names):
     """Present calculation of standard and advanced 
@@ -210,15 +237,35 @@ def calc_operations(operator_sign, variable_names):
 
     if is_invalid_arguments(operator_sign)(*variables):
         print(invalid_args_msg)
-    elif len(variable_names) == 1:
-        print(f'{operator_sign}({variables[0]}) = {correspondence_func(*variables)}')
-    elif operator_sign == 'log':
-        print(f'The logarithm of {variables[0]} with respect to base {variables[1]} is {correspondence_func(*variables)}')
-    elif operator_sign == 'n-th root':
-        print(f'The {variables[0]}-th root of {variables[1]} is {correspondence_func(*variables)}')
-    elif len(variable_names) == 2:
-        print(f'{variables[0]} {operator_sign} {variables[1]} = {correspondence_func(*variables)}')
+        return
 
+    computation_result = correspondence_func(*variables)
+    output_msg = None
+
+    if len(variable_names) == 1:
+        output_msg = f'{operator_sign}({variables[0]}) = {computation_result}'
+    elif operator_sign == 'log':
+        output_msg = f'The logarithm of {variables[0]} with respect to base {variables[1]} is {computation_result}'
+    elif operator_sign == 'n-th root':
+        output_msg = f'The {variables[0]}-th root of {variables[1]} is {computation_result}'
+    elif len(variable_names) == 2:
+        output_msg = f'{variables[0]} {operator_sign} {variables[1]} = {computation_result}'
+    
+    print(output_msg)
+    #save(output_msg)
+
+##########
+# Saving #
+##########
+
+def save(result):
+    """
+    Prompt the user whether to save RESULT
+    """
+    usr_input = get_user_input('Do you want to save this result? (Y/N)', lambda x: x == 'Y' or x == 'N', invalid_save_options)
+    if usr_input == 'Y':
+        prev_calc_results = [result] + prev_calc_results
+    
 ##############
 # Calculator #
 ##############

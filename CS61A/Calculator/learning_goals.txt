@@ -1,0 +1,6 @@
+- Breaking a big problems into smaller, manageable tasks: desigining menus, handling user input, and perform calculation
+- Practice functional programming approach with an emphasize on modularization
+- Error handling: invalid user input options, arguments
+- Data structures: dictionaries for message passing
+- Logic implementation: use control flow to run the application
+- Interface design: Use Tkinter for CLI design
