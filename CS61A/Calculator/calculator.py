@@ -78,7 +78,7 @@ math_options_infos = {'Addition': {'symbol': '+', 'variables_names': ['first sum
                  'Division': {'symbol': '/', 'variables_names': ['dividend', 'divisor'], 'operator': operator.truediv},
                  'Exponentiation': {'symbol': '^', 'variables_names': ['base', 'power'], 'operator': math.pow},
                  'Modulo': {'symbol': '%', 'variables_names': ['dividend', 'divisor'], 'operator': operator.mod},
-                 'Logarithm': {'symbol': 'log', 'variables_names': ['anti_algorithm', 'base'], 'operator': math.log},
+                 'Logarithm': {'symbol': 'log', 'variables_names': ['antilogarithm', 'base'], 'operator': math.log},
                  'n-th root': {'symbol': 'n-th root', 'variables_names': ['degree', 'radicand'], 'operator': lambda degree, radicand: pow(radicand, 1 / degree)},
                  'sin': {'symbol': 'sin', 'variables_names': ['angle'], 'operator': math.sin},
                  'cos': {'symbol': 'cos', 'variables_names': ['angle'], 'operator': math.cos},
@@ -317,8 +317,7 @@ def save(result):
     """
     usr_input = get_user_input('Do you want to save this result? (Y/N)', lambda x: x == 'Y' or x == 'N', invalid_save_options)
     if usr_input == 'Y':
-        global prev_calc_results #all names must refer to a same frame
-        prev_calc_results = [result] + prev_calc_results
+        prev_calc_results.insert(0, result)
     
 ##############
 # Calculator #
